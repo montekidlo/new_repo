@@ -1,15 +1,21 @@
 name: Just test something
+run-name: "Build with env: ${{ inputs.env }}, tag: ${{ inputs.tag }}, branch: ${{ github.ref_name }}"
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       tag:
-        required: false
+        description: 'Tag for manual build'
+        default: ''
         type: string
       env:
-        required: false
-        type: string
-        default: dev
+        description: 'Environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prod
 jobs:
   create-tag:
     runs-on: ubuntu-latest
